@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import { useSelector } from "react-redux";
+import "./App.css";
+import ResponsiveAppBar from "./components/AppBar/ResponsiveAppBar";
+import QuickAction from "./components/QuickAction/QuickAction";
+import SignUp from "./components/SignUp/SignUp";
 
 function App() {
+  const user = useSelector((state) => state.user);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      {/* authentication */}
+      {user?.isAuthenticated ? (
+        <div className="flex justify-evenly items-center align-middle  min-h-screen">
+          <img
+            src="images/signup.svg"
+            alt="signup"
+            className="hidden  lg:block max-w-lg "
+          />
+          <SignUp />
+        </div>
+      ) : (
+        <>
+          <DisplayUsers/>
+        </>
+      )}
+    </>
   );
 }
 
