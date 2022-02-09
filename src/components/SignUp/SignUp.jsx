@@ -122,229 +122,236 @@ function SignUp() {
   );
 
   return (
-    <div className="signup-con max-w-2xl ">
-      <h1 className="signup-title text-3xl md:text-5xl md:mb-8 md:mt-6 mt-2 mb-2">
-        Create your account
-      </h1>
-      {/* first name */}
-      <TextField
-        required
-        className="signup-input"
-        label="First Name"
-        type="string"
-        fullWidth
-        value={firstName}
-        onChange={(event) =>
-          setUserInfo((pre) => ({
-            ...pre,
-            firstName: event.target.value,
-          }))
-        }
-        error={error.errorInput === "firstName"}
+    <div className="flex justify-evenly items-center align-middle  min-h-screen">
+      <img
+        src="images/signup.svg"
+        alt="signup"
+        className="hidden  lg:block max-w-lg "
       />
-      <TextField
-        required
-        className="signup-input"
-        label="Middle Name"
-        type="string"
-        fullWidth
-        value={middleName}
-        onChange={(event) =>
-          setUserInfo((pre) => ({
-            ...pre,
-            middleName: event.target.value,
-          }))
-        }
-        error={error.errorInput === "middleName"}
-      />
-      {/* last name */}
-      <TextField
-        required
-        fullWidth
-        className="signup-input"
-        label="Last Name"
-        type="string"
-        value={lastName}
-        onChange={(event) =>
-          setUserInfo((pre) => ({
-            ...pre,
-            lastName: event.target.value,
-          }))
-        }
-        error={error.errorInput === "lastName"}
-      />
-      <FormLabel className="text-left">Gender</FormLabel>
+      <div className="signup-con max-w-2xl ">
+        <h1 className="signup-title text-3xl md:text-5xl md:mb-8 md:mt-4  mb-2">
+          Create your account
+        </h1>
+        {/* first name */}
+        <TextField
+          required
+          className="signup-input"
+          label="First Name"
+          type="string"
+          fullWidth
+          value={firstName}
+          onChange={(event) =>
+            setUserInfo((pre) => ({
+              ...pre,
+              firstName: event.target.value,
+            }))
+          }
+          error={error.errorInput === "firstName"}
+        />
+        <TextField
+          required
+          className="signup-input"
+          label="Middle Name"
+          type="string"
+          fullWidth
+          value={middleName}
+          onChange={(event) =>
+            setUserInfo((pre) => ({
+              ...pre,
+              middleName: event.target.value,
+            }))
+          }
+          error={error.errorInput === "middleName"}
+        />
+        {/* last name */}
+        <TextField
+          required
+          fullWidth
+          className="signup-input"
+          label="Last Name"
+          type="string"
+          value={lastName}
+          onChange={(event) =>
+            setUserInfo((pre) => ({
+              ...pre,
+              lastName: event.target.value,
+            }))
+          }
+          error={error.errorInput === "lastName"}
+        />
+        <FormLabel className="text-left">Gender</FormLabel>
 
-      <RadioGroup
-        aria-labelledby="demo-radio-buttons-group-label"
-        defaultValue="Female"
-        name="radio-buttons-group"
-        row
-        className="signup-input"
-        value={gender}
-      >
-        <FormControlLabel
-          value="Female"
-          control={<Radio />}
-          label="Female"
-          onChange={(event) =>
-            setUserInfo((pre) => ({
-              ...pre,
-              gender: event.target.value,
-            }))
-          }
-        />
-        <FormControlLabel
-          value="Male"
-          control={<Radio />}
-          label="Male"
-          onChange={(event) =>
-            setUserInfo((pre) => ({
-              ...pre,
-              gender: event.target.value,
-            }))
-          }
-        />
-        <FormControlLabel
-          value="Other"
-          control={<Radio />}
-          label="Other"
-          onChange={(event) =>
-            setUserInfo((pre) => ({
-              ...pre,
-              gender: event.target.value,
-            }))
-          }
-        />
-      </RadioGroup>
-      <FormLabel className="text-left">Account Type</FormLabel>
-      <RadioGroup
-        aria-labelledby="demo-radio-buttons-group-label"
-        defaultValue="Saving"
-        name="radio-buttons-group"
-        row
-        className="signup-input"
-        value={accountType}
-      >
-        <FormControlLabel
-          value="Saving"
-          control={<Radio />}
-          label="Saving"
-          onChange={(event) =>
-            setUserInfo((pre) => ({
-              ...pre,
-              accountType: event.target.value,
-            }))
-          }
-        />
-        <FormControlLabel
-          value="Current"
-          control={<Radio />}
-          label="Current"
-          onChange={(event) =>
-            setUserInfo((pre) => ({
-              ...pre,
-              accountType: event.target.value,
-            }))
-          }
-        />
-      </RadioGroup>
-      <div className="signup-input signup-date-con">
-        {/* date of birth */}
+        <RadioGroup
+          aria-labelledby="demo-radio-buttons-group-label"
+          defaultValue="Female"
+          name="radio-buttons-group"
+          row
+          className="signup-input"
+          value={gender}
+        >
+          <FormControlLabel
+            value="Female"
+            control={<Radio />}
+            label="Female"
+            onChange={(event) =>
+              setUserInfo((pre) => ({
+                ...pre,
+                gender: event.target.value,
+              }))
+            }
+          />
+          <FormControlLabel
+            value="Male"
+            control={<Radio />}
+            label="Male"
+            onChange={(event) =>
+              setUserInfo((pre) => ({
+                ...pre,
+                gender: event.target.value,
+              }))
+            }
+          />
+          <FormControlLabel
+            value="Other"
+            control={<Radio />}
+            label="Other"
+            onChange={(event) =>
+              setUserInfo((pre) => ({
+                ...pre,
+                gender: event.target.value,
+              }))
+            }
+          />
+        </RadioGroup>
+        <FormLabel className="text-left">Account Type</FormLabel>
+        <RadioGroup
+          aria-labelledby="demo-radio-buttons-group-label"
+          defaultValue="Saving"
+          name="radio-buttons-group"
+          row
+          className="signup-input"
+          value={accountType}
+        >
+          <FormControlLabel
+            value="Saving"
+            control={<Radio />}
+            label="Saving"
+            onChange={(event) =>
+              setUserInfo((pre) => ({
+                ...pre,
+                accountType: event.target.value,
+              }))
+            }
+          />
+          <FormControlLabel
+            value="Current"
+            control={<Radio />}
+            label="Current"
+            onChange={(event) =>
+              setUserInfo((pre) => ({
+                ...pre,
+                accountType: event.target.value,
+              }))
+            }
+          />
+        </RadioGroup>
+        <div className="signup-input signup-date-con">
+          {/* date of birth */}
+          <TextField
+            required
+            label="Day"
+            type="number"
+            value={day}
+            onChange={(event) =>
+              setUserInfo((pre) => ({
+                ...pre,
+                day: event.target.value,
+              }))
+            }
+            error={error.errorInput === "day"}
+          />
+          <TextField
+            required
+            label="Month"
+            type="number"
+            value={month}
+            onChange={(event) =>
+              setUserInfo((pre) => ({
+                ...pre,
+                month: event.target.value,
+              }))
+            }
+            error={error.errorInput === "month"}
+          />
+          <TextField
+            required
+            label="Year"
+            type="number"
+            value={year}
+            onChange={(event) =>
+              setUserInfo((pre) => ({
+                ...pre,
+                year: event.target.value,
+              }))
+            }
+            error={error.errorInput === "year"}
+          />
+        </div>
+        {/* email */}
         <TextField
           required
-          label="Day"
-          type="number"
-          value={day}
+          fullWidth
+          className="signup-input"
+          label="Email"
+          type="email"
+          value={email}
           onChange={(event) =>
             setUserInfo((pre) => ({
               ...pre,
-              day: event.target.value,
+              email: event.target.value,
             }))
           }
-          error={error.errorInput === "day"}
+          error={error.errorInput === "email"}
         />
+        {/* password */}
         <TextField
           required
-          label="Month"
-          type="number"
-          value={month}
+          className="signup-input"
+          label="Password"
+          type="password"
+          fullWidth
+          value={password}
           onChange={(event) =>
             setUserInfo((pre) => ({
               ...pre,
-              month: event.target.value,
+              password: event.target.value,
             }))
           }
-          error={error.errorInput === "month"}
+          error={error.errorInput === "password"}
         />
-        <TextField
-          required
-          label="Year"
-          type="number"
-          value={year}
-          onChange={(event) =>
-            setUserInfo((pre) => ({
-              ...pre,
-              year: event.target.value,
-            }))
-          }
-          error={error.errorInput === "year"}
+
+        {/* sign up button */}
+
+        <Button
+          size="large"
+          className="signup-btn"
+          fullWidth
+          variant="contained"
+          color="success"
+          onClick={(e) => handleSubmit(e)}
+          disabled={user.isLoading}
+        >
+          {user.isLoading ? <CircularProgress /> : "Submit"}
+        </Button>
+        <Snackbar
+          open={open}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          autoHideDuration={4000}
+          onClose={handleClose}
+          message={error.errorMessage}
+          action={action}
         />
       </div>
-      {/* email */}
-      <TextField
-        required
-        fullWidth
-        className="signup-input"
-        label="Email"
-        type="email"
-        value={email}
-        onChange={(event) =>
-          setUserInfo((pre) => ({
-            ...pre,
-            email: event.target.value,
-          }))
-        }
-        error={error.errorInput === "email"}
-      />
-      {/* password */}
-      <TextField
-        required
-        className="signup-input"
-        label="Password"
-        type="password"
-        fullWidth
-        value={password}
-        onChange={(event) =>
-          setUserInfo((pre) => ({
-            ...pre,
-            password: event.target.value,
-          }))
-        }
-        error={error.errorInput === "password"}
-      />
-
-      {/* sign up button */}
-
-      <Button
-        size="large"
-        className="signup-btn"
-        fullWidth
-        variant="contained"
-        color="success"
-        onClick={(e) => handleSubmit(e)}
-        disabled={user.isLoading}
-      >
-        {user.isLoading ? <CircularProgress /> : "Submit"}
-      </Button>
-      <Snackbar
-        open={open}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-        autoHideDuration={4000}
-        onClose={handleClose}
-        message={error.errorMessage}
-        action={action}
-      />
     </div>
   );
 }
