@@ -1,13 +1,16 @@
 import {
-  ADD_USER_INFO,
   CREATE_USER_FAILURE,
   CREATE_USER_INITIATE,
   CREATE_USER_SUCCESS,
-  REMOVE_USER_INFO
+  LOGIN_USER_FAILURE,
+  LOGIN_USER_INITIATE,
+  LOGIN_USER_SUCCESS,
+  LOGOUT_USER,
+  UPDATE_USER_INFO,
 } from "./action.types";
 
 const initialState = {
-  isAuthenticated: true, //TODO : change to false
+  isAuthenticated: false,
   isLoading: false,
   userInfo: {},
   error: "",
@@ -38,21 +41,35 @@ const userReducer = (state = initialState, action) => {
         isLoading: false,
         error: action.payload,
       };
-    case ADD_USER_INFO:
+    case UPDATE_USER_INFO:
+      return {
+        ...state,
+        isLoading: false,
+        userInfo: action.payload,
+      };
+    case LOGIN_USER_INITIATE:
+      return {
+        ...state,
+        isLoading: true,
+        error: "",
+        userInfo: {},
+        isAuthenticated: false,
+      };
+    case LOGIN_USER_SUCCESS:
       return {
         ...state,
         isLoading: false,
         userInfo: action.payload,
         isAuthenticated: true,
       };
-    case REMOVE_USER_INFO:
+    case LOGIN_USER_FAILURE:
       return {
         ...state,
         isLoading: false,
-        error: "",
-        userInfo: {},
-        isAuthenticated: true, //TODO : change to false
+        error: action.payload,
       };
+    case LOGOUT_USER:
+      return { ...initialState };
     default:
       return state;
   }
