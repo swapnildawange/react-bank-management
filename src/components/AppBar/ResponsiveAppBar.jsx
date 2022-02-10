@@ -7,44 +7,54 @@ import Toolbar from "@mui/material/Toolbar";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { logoutUser } from "../../redux/user/action";
 import { removeFromLocalStorage } from "../../utils/setLocalStorage";
 
 const ResponsiveAppBar = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
   const handleLogout = () => {
     removeFromLocalStorage("user");
     dispatch(logoutUser());
+    navigate("/");
   };
 
   return (
     <AppBar
       position="sticky"
       sx={{
-        background: "rgba(106, 84, 149,0.8)",
+        background: "rgba(106, 84, 149,1)",
         backdropFilter: "blur(20px)",
       }}
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
-            variant="h6"
+            variant="h4"
             noWrap
             component="div"
-            sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
+            sx={{
+              flexGrow: 1,
+              justifyContent: "flex-start",
+              fontWeight: "bold",
+              display: { xs: "flex" },
+            }}
           >
             Bank Management
           </Typography>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleLogout} sx={{ p: 0 }}>
-                <LogoutIcon sx={{ color: "white" }} />
-              </IconButton>
-            </Tooltip>
-          </Box>
+          {user?.isAuthenticated && (
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleLogout} sx={{ p: 0 }}>
+                  <LogoutIcon sx={{ color: "white" }} />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          )}
         </Toolbar>
       </Container>
     </AppBar>

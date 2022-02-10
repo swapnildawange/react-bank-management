@@ -1,33 +1,27 @@
-import CloseIcon from "@mui/icons-material/Close";
-import { Button, CircularProgress, IconButton, TextField } from "@mui/material";
-import Snackbar from "@mui/material/Snackbar";
+import { Button, CircularProgress, TextField } from "@mui/material";
 import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import CustomSnackBar from "../../components/CustomSnackBar/CustomSnackBar";
 import {
   loginUserFailure,
   loginUserInitiate,
-  loginUserSuccess,
+  loginUserSuccess
 } from "../../redux/user/action";
 import { addToLocalStorage } from "../../utils/setLocalStorage";
 import { loginSchema } from "../../validation/login";
-
 function Login() {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [open,setOpen] = useState(false);
+  const [error, setError] = useState({
+    message: "",
+    severity: "",
+  });
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
-
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpen(false);
-  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -35,12 +29,12 @@ function Login() {
       .validate({ email, password }, { abortEarly: true })
       .then((valid) => {
         console.log("valid", { ...valid });
-        setError("");
+        setOpen(false)
         login();
       })
       .catch((err) => {
-        setError(err?.message);
-        setOpen(true);
+        setOpen(true)
+        setError({  severity: "warning", message: err?.message });
       });
   };
 
@@ -57,27 +51,14 @@ function Login() {
       .catch((err) => {
         console.log("err", { ...err });
         dispatch(loginUserFailure(err?.message ?? "Try after some time"));
-        setError(err?.message);
-        setOpen(true);
+         setOpen(true);
+        setError({  severity: "error", message: err?.message });
       });
   };
-  console.log("state", user);
-  const action = (
-    <React.Fragment>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleClose}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    </React.Fragment>
-  );
 
   return (
-    <>
-      <div className="flex justify-evenly items-center align-middle ">
+    <div className="flex justify-evenly mt-10 items-center">
+      <div className="flex justify-evenly items-center  ">
         <img
           src="images/signup.svg"
           alt="signup"
@@ -131,18 +112,11 @@ function Login() {
                 Create account
               </Link>
             </p>
-            <Snackbar
-              open={open}
-              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-              autoHideDuration={4000}
-              onClose={handleClose}
-              message={error}
-              action={action}
-            />
+            <CustomSnackBar {...error} open={open} setOpen={setOpen} />
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

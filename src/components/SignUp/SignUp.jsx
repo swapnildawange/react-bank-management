@@ -1,16 +1,13 @@
-import CloseIcon from "@mui/icons-material/Close";
 import {
   Button,
   CircularProgress,
   FormControlLabel,
   FormLabel,
-  IconButton,
   Paper,
   Radio,
   RadioGroup,
-  TextField,
+  TextField
 } from "@mui/material";
-import Snackbar from "@mui/material/Snackbar";
 import axios from "axios";
 import moment from "moment";
 import React, { useState } from "react";
@@ -19,15 +16,22 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   createUserFailure,
   createUserInitiate,
-  createUserSuccess,
+  createUserSuccess
 } from "../../redux/user/action";
 import { signUpSchema } from "../../validation/signUp";
+import CustomSnackBar from "../CustomSnackBar/CustomSnackBar";
 import "./SignUp.css";
-
 function SignUp() {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [error, setError] = useState({
+    message: "",
+    severity: "",
+    errorInput: "",
+  });
+
   const [userInfo, setUserInfo] = useState({
     firstName: "",
     middleName: "",
@@ -40,10 +44,7 @@ function SignUp() {
     email: "",
     password: "",
   });
-  const [error, setError] = useState({
-    errorInput: "",
-    errorMessage: "",
-  });
+
   const {
     firstName,
     middleName,
@@ -57,24 +58,15 @@ function SignUp() {
     password,
   } = userInfo;
 
-  const [open, setOpen] = useState(false);
-
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
-  };
   const handleSubmit = (event) => {
     event.preventDefault();
     signUpSchema
       .validate(userInfo, { abortEarly: true })
       .then((valid) => {
-        console.log("valid", { ...valid });
+        setOpen(false);
         setError({
           errorInput: "",
-          errorMessage: "",
+          message: "",
         });
 
         // create user account
@@ -83,17 +75,20 @@ function SignUp() {
       })
       .catch((err) => {
         console.log("err", { ...err });
+         setOpen(true);
+
         setError({
+
+          severity: "warning",
           errorInput: err.path,
-          errorMessage: err.message,
+          message: err.message,
         });
-        setOpen(true);
       });
   };
 
   const createUserAccount = (userInfo) => {
     dispatch(createUserInitiate());
-    console.log("userInfo", userInfo);
+
 
     axios
       .post("http://localhost:33001/create-account", {
@@ -106,28 +101,23 @@ function SignUp() {
       })
       .then((res) => {
         dispatch(createUserSuccess({ ...res.data, ...userInfo }));
+         setOpen(false);
+        setError({
+          severity: "success",
+          errorInput: "",
+          message: "User created successfully",
+        });
       })
       .catch((err) => {
-        console.log("err", { ...err });
         dispatch(createUserFailure(err));
-        setError({
-          errorMessage: err?.message,
-        });
         setOpen(true);
+        setError({
+          severity: "error",
+          errorInput: "",
+          message: err.message,
+        });
       });
   };
-  const action = (
-    <React.Fragment>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleClose}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    </React.Fragment>
-  );
 
   return (
     <Paper elevation={3}>
@@ -358,14 +348,7 @@ function SignUp() {
               Login
             </Link>
           </p>
-          <Snackbar
-            open={open}
-            anchorOrigin={{ vertical: "top", horizontal: "right" }}
-            autoHideDuration={4000}
-            onClose={handleClose}
-            message={error.errorMessage}
-            action={action}
-          />
+          <CustomSnackBar {...error} open={open} setOpen={setOpen} />
         </div>
       </div>
     </Paper>

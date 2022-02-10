@@ -1,4 +1,6 @@
-import { useEffect } from "react";
+import CloseIcon from "@mui/icons-material/Close";
+import { Alert, IconButton, Snackbar } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
@@ -14,11 +16,11 @@ import Users from "./components/Users/Users";
 import Withdraw from "./components/Withdraw/Withdraw";
 import { loginUserSuccess } from "./redux/user/action";
 import { getFromLocalStorage } from "./utils/setLocalStorage";
-
 function App() {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   let navigate = useNavigate();
+  const [open, setOpen] = useState(true);
   console.log("user", user);
   useEffect(() => {
     let localUser = getFromLocalStorage("user");
@@ -31,7 +33,7 @@ function App() {
   }, []);
 
   return (
-    <>
+    <div>
       <ResponsiveAppBar />
       <Routes>
         {!user?.isAuthenticated ? (
@@ -41,7 +43,7 @@ function App() {
           </>
         ) : (
           <>
-            {user?.role === "Admin" ? (
+            {user?.userInfo.role === "Admin" ? (
               <>
                 {/* admin routes */}
                 <Route path="/users" element={<Users />} />
@@ -60,8 +62,11 @@ function App() {
             )}
           </>
         )}
+        <Route path="*" element={<Login />} />
       </Routes>
-    </>
+
+     
+    </div>
   );
 }
 

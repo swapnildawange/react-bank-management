@@ -2,20 +2,19 @@ import { Avatar } from "@mui/material";
 import moment from "moment";
 import React from "react";
 import { useQuery } from "react-query";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getUserDetails } from "../../API/getUserDetails";
 import { stringAvatar } from "../../utils/avtar";
 function UserDetails({ id }) {
   const { userID } = useParams();
 
-  const navigate = useNavigate();
   const {
     isLoading,
     error,
     data: userInfo,
-  } = useQuery(userID || id, async () => getUserDetails(id));
+  } = useQuery(userID || id, async () => getUserDetails(userID || id));
 
-  console.log("id", id, isLoading, error, userInfo);
+  console.log("id", id, userID, isLoading, error, userInfo);
   return (
     <div className="grid place-items-center">
       <div className="card card-outer">

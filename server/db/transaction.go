@@ -3,7 +3,6 @@ package db
 import (
 	"context"
 	"errors"
-	"fmt"
 
 	"go_bank_app/models"
 
@@ -12,7 +11,6 @@ import (
 
 func (s *pgStore) ListTransactions(ctx context.Context, account_id string) (transactions []models.ListTransactionsResponse, err error) {
 	err = s.db.Select(&transactions, listTransaction, account_id)
-	fmt.Println(transactions)
 	if err != nil {
 		return
 	}
@@ -69,9 +67,8 @@ func (s *pgStore) Deposit(ctx context.Context, trans models.Transaction) (transI
 func (s *pgStore) Withdraw(ctx context.Context, trans models.Transaction) (transId string, err error) {
 	var count int
 	var amount int
-	
+
 	dbTransaction, err := s.db.BeginTx(ctx, nil)
-	fmt.Println(trans)
 	if err != nil {
 		logger.WithField("err", err.Error()).Error("Error creating transaction")
 		return

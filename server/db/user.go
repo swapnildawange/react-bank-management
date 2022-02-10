@@ -11,7 +11,17 @@ import (
 )
 
 func (s *pgStore) GetUser(ctx context.Context, email string) (user models.GetUserResponse, err error) {
-	err = s.db.GetContext(ctx, &user, getUserQuery, email)
+	tempUser := models.GetUserResponse{}
+	err = s.db.GetContext(ctx, &tempUser, "select * from users where email=$1", email)
+	if err != nil {
+		return
+	}
+	if tempUser.Role == "Admin" {
+		err = s.db.GetContext(ctx, &user, getAdminQuery, email)
+	} else {
+		err = s.db.GetContext(ctx, &user, getUserQuery, email)
+	}
+
 	if err != nil {
 		return
 	}
@@ -20,6 +30,7 @@ func (s *pgStore) GetUser(ctx context.Context, email string) (user models.GetUse
 
 func (s *pgStore) GetUsers(ctx context.Context) (user []models.GetUsersResponse, err error) {
 	err = s.db.SelectContext(ctx, &user, getUsers)
+
 	if err != nil {
 		return
 	}

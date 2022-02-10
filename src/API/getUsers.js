@@ -1,8 +1,9 @@
 import axios from "axios";
-export const getUsers = async () => {
+export const getUsers = async (token) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
+      Authorization: `${token}`,
     },
   };
   return axios

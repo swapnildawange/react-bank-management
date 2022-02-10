@@ -2,7 +2,6 @@ package service
 
 import (
 	"errors"
-	"fmt"
 	"go_bank_app/models"
 	"net/http"
 	"strings"
@@ -24,7 +23,6 @@ func ValidateUser(deps Dependencies, rw http.ResponseWriter, req *http.Request, 
 		rw.Write([]byte("user not found"))
 		return
 	}
-	fmt.Println(user.Password,"sdgsfdghsfd",givenPassword)
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(givenPassword))
 	if err != nil {
 		logger.WithField("err", err.Error()).Error("invalid credentials given")

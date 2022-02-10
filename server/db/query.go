@@ -3,6 +3,7 @@ package db
 const (
 	updateAccountinfo     = "UPDATE accounts  SET type = $1,updated_at = $2  WHERE id = $3  RETURNING id,type,updated_at"
 	listTransaction       = "SELECT * FROM transaction where account_id = $1 order by created_at desc;"
+	getAdminQuery         = "select *  from users where email=$1;"
 	getUserQuery          = `SELECT users.id, users.first_name,users.middle_name,users.last_name,users.gender,users.date_of_birth,users.email,users.password,users.role, users.created_at,accounts.id as accid,accounts.balance ,accounts.type  FROM users join accounts on users.id = accounts.user_id where users.email=$1;`
 	selectStatement       = "SELECT balance FROM accounts where id = $1"
 	updateStatementDebit  = "UPDATE accounts SET balance = balance + $2 WHERE id = $1;"

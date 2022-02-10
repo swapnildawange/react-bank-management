@@ -28,10 +28,9 @@ func InitRouter(deps Dependencies) (router *mux.Router) {
 
 	router.HandleFunc("/withdraw", isloggedin(WithdrawMoney(deps), deps, "User")).Methods("POST", "OPTIONS")
 	router.HandleFunc("/create-account", createUser(deps)).Methods("POST", "OPTIONS")
-	// .Headers(versionHeader, v1)
 
 	router.HandleFunc("/account", isloggedin(deleteAccount(deps), deps, "Admin")).Methods(http.MethodDelete).Headers(versionHeader, v1)
-	router.HandleFunc("/users", getUsers(deps)).Methods("GET", "OPTIONS")
+	router.HandleFunc("/users", isloggedin(getUsers(deps), deps, "Admin")).Methods("GET", "OPTIONS")
 	router.HandleFunc("/user", getUserDetails(deps)).Methods("GET", "OPTIONS")
 	router.HandleFunc("/login", loginUserHandler(deps)).Methods("POST", "OPTIONS")
 	return

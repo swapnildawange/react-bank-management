@@ -2,7 +2,6 @@ package service
 
 import (
 	"encoding/json"
-	"fmt"
 	"go_bank_app/config"
 	"go_bank_app/helpers"
 	"go_bank_app/models"
@@ -133,12 +132,10 @@ func isloggedin(f http.HandlerFunc, deps Dependencies, role string) http.Handler
 			rw.WriteHeader(http.StatusUnauthorized)
 			return
 		}
-		fmt.Println(claims, role)
 		if claims["Role"] == role {
 			f(rw, r)
 			return
 		}
-		fmt.Println("here")
 		rw.WriteHeader(http.StatusUnauthorized)
 		rw.Write([]byte("not authorized"))
 	}
