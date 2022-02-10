@@ -10,8 +10,14 @@ import (
 // get all transactions
 func listTransactions(deps Dependencies) http.HandlerFunc {
 	return http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
+		setupCorsResponse(&rw, req)
+		if req.Method == "OPTIONS" {
+			rw.Header().Add("Content-Type", "application/json")
+			rw.WriteHeader(http.StatusOK)
+			return
+		}
 		query := req.URL.Query()
-		account_id := query.Get("account_id")
+		account_id := query.Get("id")
 		transactions, err := deps.Store.ListTransactions(req.Context(), account_id)
 		if err != nil {
 			logger.WithField("err", err.Error()).Error("Error fetching transactions")

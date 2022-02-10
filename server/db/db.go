@@ -15,5 +15,7 @@ type Storer interface {
 	CreateUser(context.Context, models.CreateUserRequest) (models.User, error)
 	CreateAccount(context.Context, models.CreateUserRequest, string) (models.CreateAccountResponse, error)
 	DeleteAccount(context.Context, string) error
-	GetUser(ctx context.Context, email string) (models.User, error)
+	GetUser(context.Context, string) (models.GetUserResponse, error)
+	GetUsers(context.Context) ([]models.GetUsersResponse, error)
+	GetUserDetails(context.Context, string) (models.GetUserResponse, error)
 }

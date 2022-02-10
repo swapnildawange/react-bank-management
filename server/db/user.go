@@ -7,27 +7,39 @@ import (
 
 	"github.com/google/uuid"
 	logger "github.com/sirupsen/logrus"
+	"golang.org/x/crypto/bcrypt"
 )
 
-func (s *pgStore) GetUser(ctx context.Context, email string) (user models.User, err error) {
+func (s *pgStore) GetUser(ctx context.Context, email string) (user models.GetUserResponse, err error) {
 	err = s.db.GetContext(ctx, &user, getUserQuery, email)
 	if err != nil {
 		return
 	}
+	return
+}
 
+func (s *pgStore) GetUsers(ctx context.Context) (user []models.GetUsersResponse, err error) {
+	err = s.db.SelectContext(ctx, &user, getUsers)
+	if err != nil {
+		return
+	}
 	return
 }
 
 func (s *pgStore) CreateUser(ctx context.Context, req models.CreateUserRequest) (user models.User, err error) {
-
 	user.Id = uuid.NewString()
 	user.FirstName = req.FirstName
 	user.MiddleName = req.MiddleName
 	user.LastName = req.LastName
 	user.Gender = req.Gender
-	user.DateOfBirth = time.Date(int(req.Year), time.Month(req.Month), int(req.Day), time.Now().Hour(), time.Now().Minute(), time.Now().Second(), 0, time.UTC)
+	user.DateOfBirth = time.Date((req.Year), time.Month(req.Month), (req.Day), time.Now().Hour(), time.Now().Minute(), time.Now().Second(), 0, time.UTC)
 	user.Email = req.Email
-	user.Password = req.Password
+	bytes, err := bcrypt.GenerateFromPassword([]byte(req.Password), 12)
+	if err != nil {
+		logger.WithField("err", err.Error()).Error("Error encrypting password")
+		return
+	}
+	user.Password = string(bytes)
 	user.Role = "User"
 	user.Created_at = time.Now()
 	user.Updated_at = time.Now()
@@ -38,5 +50,13 @@ func (s *pgStore) CreateUser(ctx context.Context, req models.CreateUserRequest) 
 		return
 	}
 
+	return
+}
+
+func (s *pgStore) GetUserDetails(ctx context.Context, id string) (user models.GetUserResponse, err error) {
+	err = s.db.GetContext(ctx, &user, getUserDetails, id)
+	if err != nil {
+		return
+	}
 	return
 }

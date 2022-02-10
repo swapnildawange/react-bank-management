@@ -20,19 +20,19 @@ func InitRouter(deps Dependencies) (router *mux.Router) {
 
 	// Version 1 API management
 
-	router.HandleFunc("/transactions", isloggedin(listTransactions(deps), deps, "User")).Methods(http.MethodGet).Headers(versionHeader, v1)
+	router.HandleFunc("/transactions", listTransactions(deps)).Methods("GET", "OPTIONS")
 
 	router.HandleFunc("/account/update", isloggedin(updateAccountInfo(deps), deps, "Admin")).Methods(http.MethodPut).Headers(versionHeader, v1)
 
-	router.HandleFunc("/deposit", isloggedin(DepositMoney(deps), deps, "User")).Methods(http.MethodPost).Headers(versionHeader, v1)
+	router.HandleFunc("/deposit", isloggedin(DepositMoney(deps), deps, "User")).Methods("POST", "OPTIONS")
 
-	router.HandleFunc("/withdraw", isloggedin(WithdrawMoney(deps), deps, "User")).Methods(http.MethodPost).Headers(versionHeader, v1)
-
+	router.HandleFunc("/withdraw", isloggedin(WithdrawMoney(deps), deps, "User")).Methods("POST", "OPTIONS")
 	router.HandleFunc("/create-account", createUser(deps)).Methods("POST", "OPTIONS")
 	// .Headers(versionHeader, v1)
 
 	router.HandleFunc("/account", isloggedin(deleteAccount(deps), deps, "Admin")).Methods(http.MethodDelete).Headers(versionHeader, v1)
-
-	router.HandleFunc("/login", loginUsersHandler(deps)).Methods(http.MethodPost).Headers(versionHeader, v1)
+	router.HandleFunc("/users", getUsers(deps)).Methods("GET", "OPTIONS")
+	router.HandleFunc("/user", getUserDetails(deps)).Methods("GET", "OPTIONS")
+	router.HandleFunc("/login", loginUserHandler(deps)).Methods("POST", "OPTIONS")
 	return
 }

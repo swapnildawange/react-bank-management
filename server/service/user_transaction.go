@@ -47,10 +47,19 @@ func DepositMoney(deps Dependencies) http.HandlerFunc {
 
 func WithdrawMoney(deps Dependencies) http.HandlerFunc {
 	return http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
+		// for cors error
+		setupCorsResponse(&rw, req)
+		if req.Method == "OPTIONS" {
+			rw.Header().Add("Content-Type", "application/json")
+			rw.WriteHeader(http.StatusOK)
+			return
+		}
 		var trans models.Transaction
 		var transactionId string
 		err := json.NewDecoder(req.Body).Decode(&trans)
+
 		if err != nil {
+			logger.WithField("err", err.Error()).Error("Bad Input")
 			http.Error(rw, err.Error(), http.StatusBadRequest)
 			return
 		}
@@ -63,7 +72,7 @@ func WithdrawMoney(deps Dependencies) http.HandlerFunc {
 		}
 		if err != nil && err.Error() == "insufficient funds" {
 			logger.WithField("err", err.Error()).Error("Bad Input")
-			rw.Write([]byte("Bad Input .Not Enough MOney"))
+			rw.Write([]byte("Not Enough Balance"))
 			rw.WriteHeader(http.StatusBadRequest)
 			return
 		}
