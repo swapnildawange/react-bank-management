@@ -13,7 +13,6 @@ function Deposit() {
    message: "",
    severity: "",
  });
-  console.log("user.token", userInfo);
   const handleWithdraw = () => {
 
    amountSchema

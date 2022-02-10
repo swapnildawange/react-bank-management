@@ -11,7 +11,6 @@ function History() {
     error,
     data: transactions,
   } = useQuery("history", () => getHistory(userInfo.acc_id));
-  console.log("userID", userInfo.acc_id, isLoading, error, transactions);
 
   return (
     <div className="grid place-items-center">

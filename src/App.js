@@ -1,6 +1,4 @@
-import CloseIcon from "@mui/icons-material/Close";
-import { Alert, IconButton, Snackbar } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import "./App.css";
@@ -20,8 +18,6 @@ function App() {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   let navigate = useNavigate();
-  const [open, setOpen] = useState(true);
-  console.log("user", user);
   useEffect(() => {
     let localUser = getFromLocalStorage("user");
     if (localUser?.token) {
@@ -29,7 +25,6 @@ function App() {
     } else {
       navigate("/");
     }
-    console.log("localUser", localUser);
   }, []);
 
   return (
@@ -64,8 +59,6 @@ function App() {
         )}
         <Route path="*" element={<Login />} />
       </Routes>
-
-     
     </div>
   );
 }

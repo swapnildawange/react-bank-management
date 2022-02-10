@@ -28,7 +28,6 @@ function Login() {
     loginSchema
       .validate({ email, password }, { abortEarly: true })
       .then((valid) => {
-        console.log("valid", { ...valid });
         setOpen(false)
         login();
       })
@@ -43,13 +42,11 @@ function Login() {
     axios
       .post("http://localhost:33001/login", { email, password })
       .then((res) => {
-        console.log("res", res.data);
         dispatch(loginUserSuccess(res.data));
         navigate("/");
         addToLocalStorage("user", res.data);
       })
       .catch((err) => {
-        console.log("err", { ...err });
         dispatch(loginUserFailure(err?.message ?? "Try after some time"));
          setOpen(true);
         setError({  severity: "error", message: err?.message });

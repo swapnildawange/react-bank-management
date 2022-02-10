@@ -14,7 +14,6 @@ function UserDetails({ id }) {
     data: userInfo,
   } = useQuery(userID || id, async () => getUserDetails(userID || id));
 
-  console.log("id", id, userID, isLoading, error, userInfo);
   return (
     <div className="grid place-items-center">
       <div className="card card-outer">
