@@ -26,9 +26,7 @@ func listTransactions(deps Dependencies) http.HandlerFunc {
 			return
 		}
 		respBytes, err := json.Marshal(transactions)
-		if len(transactions) == 0 {
-			respBytes = []byte("No transaction found")
-		}
+		
 		if err != nil {
 			logger.WithField("err", err.Error()).Error("Error marshalling transactions")
 			rw.WriteHeader(http.StatusInternalServerError)

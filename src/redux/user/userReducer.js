@@ -10,6 +10,7 @@ import {
 } from "./action.types";
 
 const initialState = {
+  isLoggedIn: false,
   isAuthenticated: false,
   isLoading: false,
   userInfo: {},
@@ -18,7 +19,7 @@ const initialState = {
 
 const userReducer = (state = initialState, action) => {
   const { type } = action;
-
+  console.log("action", action);
   switch (type) {
     case CREATE_USER_INITIATE:
       return {
@@ -27,6 +28,7 @@ const userReducer = (state = initialState, action) => {
         error: "",
         userInfo: {},
         isAuthenticated: false,
+        isLoggedIn: false,
       };
     case CREATE_USER_SUCCESS:
       return {
@@ -34,12 +36,14 @@ const userReducer = (state = initialState, action) => {
         isLoading: false,
         userInfo: action.payload,
         isAuthenticated: true,
+        isLoggedIn: false,
       };
     case CREATE_USER_FAILURE:
       return {
         ...state,
         isLoading: false,
         error: action.payload,
+        isLoggedIn: false,
       };
     case UPDATE_USER_INFO:
       return {
@@ -61,6 +65,7 @@ const userReducer = (state = initialState, action) => {
         isLoading: false,
         userInfo: action.payload,
         isAuthenticated: true,
+        isLoggedIn: true,
       };
     case LOGIN_USER_FAILURE:
       return {

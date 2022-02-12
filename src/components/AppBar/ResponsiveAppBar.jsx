@@ -10,14 +10,12 @@ import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logoutUser } from "../../redux/user/action";
-import { removeFromLocalStorage } from "../../utils/setLocalStorage";
 
 const ResponsiveAppBar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const handleLogout = () => {
-    removeFromLocalStorage("user");
     dispatch(logoutUser());
     navigate("/");
   };

@@ -1,22 +1,16 @@
 import { Button, CircularProgress, TextField } from "@mui/material";
-import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import CustomSnackBar from "../../components/CustomSnackBar/CustomSnackBar";
-import {
-  loginUserFailure,
-  loginUserInitiate,
-  loginUserSuccess
-} from "../../redux/user/action";
-import { addToLocalStorage } from "../../utils/setLocalStorage";
+import { loginUserInitiate } from "../../redux/user/action";
 import { loginSchema } from "../../validation/login";
 function Login() {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [open,setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const [error, setError] = useState({
     message: "",
     severity: "",
@@ -28,29 +22,27 @@ function Login() {
     loginSchema
       .validate({ email, password }, { abortEarly: true })
       .then((valid) => {
-        setOpen(false)
+        setOpen(false);
         login();
       })
       .catch((err) => {
-        setOpen(true)
-        setError({  severity: "warning", message: err?.message });
+        setOpen(true);
+        setError({ severity: "warning", message: err?.message });
       });
   };
 
+  useEffect(() => {
+    if (user?.isAuthenticated && user?.isLoggedIn) {
+      navigate("/");
+    }
+    if (user?.error) {
+      setOpen(true);
+      setError({ severity: "error", message: user?.error });
+    }
+  }, [user]);
+
   const login = () => {
-    dispatch(loginUserInitiate());
-    axios
-      .post("http://localhost:33001/login", { email, password })
-      .then((res) => {
-        dispatch(loginUserSuccess(res.data));
-        navigate("/");
-        addToLocalStorage("user", res.data);
-      })
-      .catch((err) => {
-        dispatch(loginUserFailure(err?.message ?? "Try after some time"));
-         setOpen(true);
-        setError({  severity: "error", message: err?.message });
-      });
+    dispatch(loginUserInitiate({ email, password }));
   };
 
   return (
@@ -62,7 +54,7 @@ function Login() {
           className="hidden  lg:block max-w-lg "
         />
         <div className="signup-con max-w-2xl ">
-          <h1 className="signup-title text-3xl md:text-5xl my-4 md:mb-8 md:mt-6  ">
+          <h1 className="signup-title text-3xl md:text-5xl my-4 md:mb-8 md:mt-6 ">
             Login
           </h1>
 
@@ -100,12 +92,13 @@ function Login() {
               color="success"
               onClick={(e) => handleSubmit(e)}
               disabled={user.isLoading}
+              name="login"
             >
               {user.isLoading ? <CircularProgress /> : "Login"}
             </Button>
             <p>
               New user{" "}
-              <Link to="/" className="font-bold text-blue-600">
+              <Link to="/signup" className="font-bold text-blue-600">
                 Create account
               </Link>
             </p>

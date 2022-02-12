@@ -2,6 +2,7 @@ package service
 
 import (
 	"encoding/json"
+	"fmt"
 	"go_bank_app/config"
 	"go_bank_app/helpers"
 	"go_bank_app/models"
@@ -69,6 +70,7 @@ func loginUserHandler(deps Dependencies) http.HandlerFunc {
 			return
 		}
 		var credentials models.Credentials
+		fmt.Println(credentials)
 
 		err := json.NewDecoder(req.Body).Decode(&credentials)
 		if err != nil {

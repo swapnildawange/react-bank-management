@@ -6,18 +6,13 @@ import {
   Paper,
   Radio,
   RadioGroup,
-  TextField
+  TextField,
 } from "@mui/material";
-import axios from "axios";
 import moment from "moment";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  createUserFailure,
-  createUserInitiate,
-  createUserSuccess
-} from "../../redux/user/action";
+import { createUserInitiate } from "../../redux/user/action";
 import { signUpSchema } from "../../validation/signUp";
 import CustomSnackBar from "../CustomSnackBar/CustomSnackBar";
 import "./SignUp.css";
@@ -74,10 +69,9 @@ function SignUp() {
         navigate("/");
       })
       .catch((err) => {
-         setOpen(true);
+        setOpen(true);
 
         setError({
-
           severity: "warning",
           errorInput: err.path,
           message: err.message,
@@ -85,12 +79,19 @@ function SignUp() {
       });
   };
 
+  useEffect(() => {
+    if (user?.isAuthenticated && !user?.isLoggedIn) {
+      navigate("/");
+    }
+    if (user?.error) {
+      setOpen(true);
+      setError({ severity: "error", message: user?.error });
+    }
+  }, [user]);
+
   const createUserAccount = (userInfo) => {
-    dispatch(createUserInitiate());
-
-
-    axios
-      .post("http://localhost:33001/create-account", {
+    dispatch(
+      createUserInitiate({
         ...userInfo,
         ...{
           day: parseInt(userInfo.day),
@@ -98,24 +99,7 @@ function SignUp() {
           year: parseInt(userInfo.year),
         },
       })
-      .then((res) => {
-        dispatch(createUserSuccess({ ...res.data, ...userInfo }));
-         setOpen(false);
-        setError({
-          severity: "success",
-          errorInput: "",
-          message: "User created successfully",
-        });
-      })
-      .catch((err) => {
-        dispatch(createUserFailure(err));
-        setOpen(true);
-        setError({
-          severity: "error",
-          errorInput: "",
-          message: err.message,
-        });
-      });
+    );
   };
 
   return (
@@ -343,7 +327,7 @@ function SignUp() {
           </Button>
           <p>
             Already a user{" "}
-            <Link to="/login" className="font-bold text-blue-600">
+            <Link to="/" className="font-bold text-blue-600">
               Login
             </Link>
           </p>

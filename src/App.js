@@ -31,10 +31,10 @@ function App() {
     <div>
       <ResponsiveAppBar />
       <Routes>
-        {!user?.isAuthenticated ? (
+        {!user?.isLoggedIn ? (
           <>
-            <Route path="/" element={<SignUp />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
           </>
         ) : (
           <>

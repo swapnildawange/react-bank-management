@@ -1,1 +1,3 @@
-export const ADD_USERS = "ADD_USERS";
+export const GET_USERS_INITIATE = "GET_USERS";
+export const GET_USERS_SUCCESS = "GET_USERS_SUCCESS";
+export const GET_USERS_FAILURE = "GET_USERS_FAILURE";

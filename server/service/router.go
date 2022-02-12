@@ -31,7 +31,7 @@ func InitRouter(deps Dependencies) (router *mux.Router) {
 
 	router.HandleFunc("/account", isloggedin(deleteAccount(deps), deps, "Admin")).Methods(http.MethodDelete).Headers(versionHeader, v1)
 	router.HandleFunc("/users", isloggedin(getUsers(deps), deps, "Admin")).Methods("GET", "OPTIONS")
-	router.HandleFunc("/user", getUserDetails(deps)).Methods("GET", "OPTIONS")
+	router.HandleFunc("/user", 	getUserDetails(deps)).Methods("GET", "OPTIONS")
 	router.HandleFunc("/login", loginUserHandler(deps)).Methods("POST", "OPTIONS")
 	return
 }

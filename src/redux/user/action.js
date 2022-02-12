@@ -9,8 +9,9 @@ import {
   UPDATE_USER_INFO,
 } from "./action.types";
 
-export const createUserInitiate = () => ({
+export const createUserInitiate = (userInfo) => ({
   type: CREATE_USER_INITIATE,
+  payload: userInfo,
 });
 
 export const createUserSuccess = (user) => ({
@@ -23,8 +24,9 @@ export const createUserFailure = (error) => ({
   payload: error,
 });
 
-export const loginUserInitiate = () => ({
+export const loginUserInitiate = (credentials) => ({
   type: LOGIN_USER_INITIATE,
+  payload: credentials,
 });
 
 export const loginUserSuccess = (user) => ({
