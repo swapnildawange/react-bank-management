@@ -9,7 +9,7 @@ import {
   UPDATE_USER_INFO,
 } from "./action.types";
 
-const initialState = {
+export const initialState = {
   isLoggedIn: false,
   isAuthenticated: false,
   isLoading: false,
@@ -19,7 +19,6 @@ const initialState = {
 
 const userReducer = (state = initialState, action) => {
   const { type } = action;
-  console.log("action", action);
   switch (type) {
     case CREATE_USER_INITIATE:
       return {

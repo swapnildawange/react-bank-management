@@ -164,9 +164,7 @@ function SignUp() {
           <FormLabel className="text-left">Gender</FormLabel>
 
           <RadioGroup
-            aria-labelledby="demo-radio-buttons-group-label"
             defaultValue="Female"
-            name="radio-buttons-group"
             row
             className="signup-input"
             value={gender}
@@ -322,6 +320,7 @@ function SignUp() {
             color="primary"
             onClick={(e) => handleSubmit(e)}
             disabled={user.isLoading}
+            title="Sign Up"
           >
             {user.isLoading ? <CircularProgress /> : "Sign Up"}
           </Button>

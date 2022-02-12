@@ -13,8 +13,7 @@ import { requestCreateUser, requestLoginUser } from "../requests/user";
 
 export function* handleLoginUser(action) {
   try {
-    const response = yield call(requestLoginUser, action.payload);
-    const { data } = response;
+    const {data} = yield call(requestLoginUser, action.payload);
     yield put(loginUserSuccess(data));
     yield addToLocalStorage("user", data);
   } catch (err) {

@@ -74,6 +74,7 @@ function Withdraw() {
           color="primary"
           size="large"
           onClick={handleWithdraw}
+          title="withdraw"
         >
           continue
         </Button>

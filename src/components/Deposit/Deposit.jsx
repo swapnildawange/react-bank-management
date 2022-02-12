@@ -62,7 +62,7 @@ function Deposit() {
           <TextField
             required
             className="signup-input"
-            label="Amount "
+            label="Amount"
             type="number"
             fullWidth
             value={amount}
@@ -74,6 +74,7 @@ function Deposit() {
           color="primary"
           size="large"
           onClick={handleWithdraw}
+          title="Deposit"
         >
           continue
         </Button>

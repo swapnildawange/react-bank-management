@@ -7,6 +7,7 @@ import { BrowserRouter } from "react-router-dom";
 import { applyMiddleware, createStore } from "redux";
 import createSagaMiddleware from "redux-saga";
 import rootReducer from "./redux/rootReducer";
+import "@testing-library/jest-dom";
 
 const sagaMiddleware = createSagaMiddleware();
 const queryClient = new QueryClient();

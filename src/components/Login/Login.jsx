@@ -92,7 +92,8 @@ function Login() {
               color="success"
               onClick={(e) => handleSubmit(e)}
               disabled={user.isLoading}
-              name="login"
+              name="login-btn"
+              title="Login"
             >
               {user.isLoading ? <CircularProgress /> : "Login"}
             </Button>
@@ -102,7 +103,7 @@ function Login() {
                 Create account
               </Link>
             </p>
-            <CustomSnackBar {...error} open={open} setOpen={setOpen} />
+            <CustomSnackBar name="snackbar" {...error} open={open} setOpen={setOpen} />
           </div>
         </div>
       </div>
