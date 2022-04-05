@@ -47,13 +47,7 @@ func DepositMoney(deps Dependencies) http.HandlerFunc {
 
 func WithdrawMoney(deps Dependencies) http.HandlerFunc {
 	return http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
-		// for cors error
-		setupCorsResponse(&rw, req)
-		if req.Method == "OPTIONS" {
-			rw.Header().Add("Content-Type", "application/json")
-			rw.WriteHeader(http.StatusOK)
-			return
-		}
+	
 		var trans models.Transaction
 		var transactionId string
 		err := json.NewDecoder(req.Body).Decode(&trans)
