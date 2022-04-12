@@ -61,13 +61,7 @@ func createUser(deps Dependencies) http.HandlerFunc {
 // @Failure 400 {object}
 func loginUserHandler(deps Dependencies) http.HandlerFunc {
 	return http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
-		// for cors error
-		setupCorsResponse(&rw, req)
-		if req.Method == "OPTIONS" {
-			rw.Header().Add("Content-Type", "application/json")
-			rw.WriteHeader(http.StatusOK)
-			return
-		}
+
 		var credentials models.Credentials
 
 		err := json.NewDecoder(req.Body).Decode(&credentials)

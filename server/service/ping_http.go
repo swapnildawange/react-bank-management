@@ -12,7 +12,6 @@ type PingResponse struct {
 }
 
 func pingHandler(rw http.ResponseWriter, req *http.Request) {
-	setupCorsResponse(&rw, req)
 	response := PingResponse{Message: "pong"}
 
 	respBytes, err := json.Marshal(response)
